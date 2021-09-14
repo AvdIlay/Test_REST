@@ -1,14 +1,19 @@
 
+import com.sun.xml.internal.fastinfoset.util.StringArray;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.HashMap;
 
 import java.util.Scanner;
 
 
 public class HashImplementation {
+
+
 
     public static void main(String[] args) throws IOException {
 
@@ -62,27 +67,32 @@ public class HashImplementation {
                     //create file
                     try(FileWriter writer = new FileWriter("notes3.txt", false))
                     {
-                        keyAndValue.forEach((k, v) -> {
+                        keyAndValue.forEach((key, v) -> {
                             try {
-                                String s = k + " " + v;
+                                String s = key  + " : " +  v;
                                 writer.write(s + "\n");
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         });
                     }catch(IOException ex){
-
                         System.out.println(ex.getMessage());
                     }
                     break;
                 case "L":
+                    //load file
                     FileReader fileReader = new FileReader("notes3.txt");
                     Scanner scan = new Scanner(fileReader);
+                    keyAndValue = new HashMap<String, String>();
                     while (scan.hasNextLine()) {
-                        System.out.println(scan.nextLine());
+                        String[] parts = scan.nextLine().split(" : ");
+                        String key = parts[0];
+                        String val = parts[1];
+                        keyAndValue.put(key, val);
+                        System.out.println(keyAndValue);
+
                     }
                     fileReader.close();
-
             }
             //System.out.println(keyAndValue);
 
